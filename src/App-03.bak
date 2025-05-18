@@ -1,0 +1,110 @@
+import React, { useState } from 'react';
+import './App.css';
+import { entries } from './data';
+
+type Question = {
+  country: string;
+  userAnswer: string;
+};
+
+const shuffle = <T,>(array: T[]): T[] => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
+const countryList: { country: string; index: number }[] =
+  entries.map((e, i) => ({
+    country: e.country,
+    index: i,
+  }));
+
+
+const capitalList: { capital: string; index: number }[] =
+  entries.map((e, i) => ({
+    capital: e.capital,
+    index: i
+  }));
+
+function App() {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [currentSet, setCurrentSet] = useState<typeof countryList>([]);
+  const [caption, setCaption] = useState('');
+  const capitalListSorted = capitalList.sort((a, b) => a.capital.localeCompare(b.capital));
+
+  const generateQuestions = () => {
+    const picked = shuffle(countryList).slice(0, 5);
+    setCurrentSet(picked);
+    setQuestions(picked.map(({ country }) => ({ country, userAnswer: '' })));
+    setCaption("Enter the number of the corresponding capital!");
+  };
+
+  const handleChange = (index: number, value: string) => {
+    setQuestions(prev =>
+      prev.map((q, i) => (i === index ? { ...q, userAnswer: value } : q))
+    );
+  };
+
+  const handleSubmit = async () => {
+    const points: number[] = [];
+
+    for (let i = 0; i < currentSet.length; i++) {
+      const answer = Number(questions[i].userAnswer);
+      if (!Number.isInteger(answer) || answer < 1 || answer > 35) {
+	points[i] = 0;
+	continue;
+      }
+
+      const guessedCapitalIndex = capitalListSorted[answer - 1].index;
+      const correctCapitalIndex = currentSet[i].index;
+
+      points[i] = guessedCapitalIndex === correctCapitalIndex ? 1 : 0;
+    }
+
+    const score = points.reduce((sum, val) => sum + val, 0);
+    console.log("Score =", score);
+    setCaption("Score = " + score);
+  };
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>Capital Cities Quiz</h1>
+      <button onClick={generateQuestions}>Generate Questions</button>
+
+      {questions.map((q, i) => (
+        <div key={i} style={{ display: 'flex', marginLeft: '10rem', marginTop: '1rem' }}>
+          <div style={{ width: '200px' }}>{q.country}</div>
+          <input
+            type="number"
+            value={q.userAnswer}
+            onChange={(e) => handleChange(i, e.target.value)}
+          />
+        </div>
+      ))}
+
+      {questions.length > 0 && (
+	<div>
+	  <p>{caption}</p>
+          <button style={{ marginTop: '1rem' }} onClick={handleSubmit}>
+            Submit
+          </button>
+	</div>
+      )}
+
+      <h2 style={{ marginTop: '3rem' }}>Capital Cities List</h2>
+      <ol
+	style={{
+	  display: 'grid',
+	  gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+	  gap: '0.5rem 2rem',
+	  listStylePosition: 'inside',
+	  paddingLeft: 0,
+	}}
+      >
+	{capitalList.map((object, index) => (
+	  <li key={index}>{object.capital}</li>
+	))}
+      </ol>
+    </div>
+  );
+}
+
+export default App;
