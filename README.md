@@ -1,54 +1,30 @@
-# React + TypeScript + Vite
+# Capital Cities Quiz
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This game tests your geography knowledge about countries and their corresponding capitals.  A score between 0 and 5 is assigned to each trial.
 
-Currently, two official plugins are available:
+The purpose of the game's website is to showcase generation of a zkPass token based on some "real" Web2 information (your score).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Prerequisites
 
-## Expanding the ESLint configuration
+- Run the [zkPass server](https://github.com/zkFold/zkpass-cardano).
+- Use section *Setup zkPass* of [zkPass DApp](https://github.com/zkFold/zkpass-client/) to execute initial setup.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Game & zkPass instructions
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Press `Generate Questions` to start a new quiz.  Answer with the number corresponding to the correct capital city.
+- Press `Submit` go see your score.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### zkPass token
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To mint the zkPass token that captures ("intercepts") your score, follow these steps:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1. Make sure you have entered the address receiving the minted token at the bottom of the page.  (Press `Self` to automatically enter your own address.)
+2. Press `ZkPass Mint` to mint the *zkPass token*.
+
+*Notes:*
+
+- The *zkPass result* is the bytestring corresponding to your score.
+- Token name is the hash of the *zkPass result*.
+- The minted token can be used to claim a reward by burning the token using the [zkPass DApp](https://github.com/zkFold/zkpass-client/).  For burning to succeed, a reward needs to have been posted at the `ForwardingMint` address.
+  - Use section *Transfer zkPass Reward* of the DApp to post a reward.
+  - Use section *Burn zkPass Token & get reward* to burn token.  (Token field needs to be entered in the form *policyID.tokenName*.)
