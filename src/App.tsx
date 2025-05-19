@@ -37,7 +37,6 @@ function App() {
   const capitalListSorted = capitalList.sort((a, b) => a.capital.localeCompare(b.capital));
   // Mint
   const [mintBenefAddr, setMintBenefAddr] = useState('');
-  const [scriptRefC, setScriptRefC] = useState('');
   const [zkPassResult, setZkPassResult] = useState('');
   const [zkpPolicyId, setZkpPolicyId] = useState('');
   const [zkpTknName, setZkpTknName] = useState('');
@@ -99,7 +98,6 @@ function App() {
 	miUsedAddrs: await api.getUsedAddresses(),
 	miChangeAddr: await api.getChangeAddress(),
 	miBeneficiaryAddr: mintBenefAddr,
-	miScriptsTxOutRef: scriptRefC,
 	miResult: scoreResult
       };
 
@@ -242,14 +240,6 @@ function App() {
 	  />
 	  <span style={{ marginLeft: '1rem' }}>zkPass token recipient</span>
 	  <button onClick={setOwnAddr} style={{ marginLeft: '2rem' }}>Self</button>
-	  <input
-	    type="text"
-	    placeholder="Script reference TxId"
-	    value={scriptRefC}
-	    onChange={(e) => setScriptRefC(e.target.value)}
-	    style={{ width: '60%' }}
-	  />
-	  <span>Script Ref TxId</span>
 	</div>
         {sendStatusC && <p style={{ marginTop: '1rem', color: sendStatusC.startsWith('✅') ? 'green' : 'red' }}>{sendStatusC}</p>}
 	{mintTxRef && <p>{mintTxRef}</p>}
