@@ -16,7 +16,7 @@ The purpose of the game's website is to showcase generation of a zkPass token ba
 npm run dev
 ```
 - Press `Generate Questions` to start a new quiz.  Answer with the number corresponding to the correct capital city.
-- Press `Submit` go see your score.
+- Press `Submit` to reveal your score.
 
 ### zkPass token
 
