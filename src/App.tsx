@@ -25,6 +25,8 @@ const capitalList: { capital: string; index: number }[] =
     index: i
   }));
 
+capitalList.sort((a, b) => a.capital.localeCompare(b.capital));
+
 function App() {
   // Wallet
   const [selectedWallet, setSelectedWallet] = useState("lace");
@@ -34,7 +36,6 @@ function App() {
   const [scoreResult, setScoreResult] = useState('');
   const [caption, setCaption] = useState('');
   const [captionColor, setCaptionColor] = useState('black');
-  const capitalListSorted = capitalList.sort((a, b) => a.capital.localeCompare(b.capital));
   // Mint
   const [mintBenefAddr, setMintBenefAddr] = useState('');
   const [zkPassResult, setZkPassResult] = useState('');
@@ -71,7 +72,7 @@ function App() {
 	continue;
       }
 
-      const guessedCapitalIndex = capitalListSorted[answer - 1].index;
+      const guessedCapitalIndex = capitalList[answer - 1].index;
       const correctCapitalIndex = currentSet[i].index;
 
       points[i] = guessedCapitalIndex === correctCapitalIndex ? 1 : 0;
@@ -84,7 +85,7 @@ function App() {
 
     setCaptionColor(
       score === 0 ? 'red' :
-      score > 0 && score <= 4 ? 'blue' :
+      score <= 4 ? 'blue' :
       score === 5 ? 'green' :
       'black'
     );
